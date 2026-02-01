@@ -1,0 +1,45 @@
+.container {
+    width: 90vmin;
+    margin: 5vmin auto 5vmin auto;
+}
+
+.board {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: gray;
+    /* width: 90vmin; */
+    /* height: 80vh; */
+    aspect-ratio: 1;
+}
+
+.card {
+    position: relative;
+    width: 95%;
+    aspect-ratio: 1;
+    background: red;
+    cursor: col-resize;
+    border-radius: 5%;
+    margin: auto;
+}
+
+.number {
+    display: grid;
+    position: relative;
+    width: 15%;
+    min-width: 20px;
+    aspect-ratio: 1;
+    background: cyan;
+    cursor: wait;
+    border-radius: 5%;
+    align-items: center;
+    text-align: center;
+}
+
+.answers {
+    position: relative;
+    background-color: gray;
+    width: fit-content;
+    padding: 5px;
+    margin: 10px auto 10px auto;
+}
