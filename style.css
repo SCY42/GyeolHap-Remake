@@ -1,5 +1,8 @@
 .container {
-    width: 90vmin;
+    display: grid;
+    grid-template-columns: 1fr 8fr 1fr;
+    grid-template-rows: 1fr;
+    width: 90vw;
     margin: 5vmin auto 5vmin auto;
 }
 
@@ -7,17 +10,18 @@
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
-    background-color: gray;
-    /* width: 90vmin; */
+    background-color: aqua;
+    width: 90%;
+    margin: auto;
     /* height: 80vh; */
     aspect-ratio: 1;
 }
 
 .card {
     position: relative;
+    display: flex;
     width: 95%;
     aspect-ratio: 1;
-    background: red;
     cursor: col-resize;
     border-radius: 5%;
     margin: auto;
@@ -25,21 +29,79 @@
 
 .number {
     display: grid;
-    position: relative;
+    position: absolute;
     width: 15%;
     min-width: 20px;
     aspect-ratio: 1;
-    background: cyan;
+    background: aqua;
+    color: black;
     cursor: wait;
-    border-radius: 5%;
+    /* border-radius: 20%; */
     align-items: center;
     text-align: center;
+    z-index: 5;
 }
 
-.answers {
+.answers-row {
     position: relative;
-    background-color: gray;
-    width: fit-content;
-    padding: 5px;
+    display: flex;
     margin: 10px auto 10px auto;
+}
+
+.answer {
+    color: white;
+    background-color: black;
+    padding: 5px;
+    margin: auto;
+    font-size: x-large;
+}
+
+.button {
+    font-size: larger;
+}
+
+.black {
+    background: black;
+}
+
+.gray {
+    background: gray;
+}
+
+.white {
+    background: white;
+}
+
+.red {
+    background: red;
+}
+
+.blue {
+    background: blue;
+}
+
+.green {
+    background: lime;
+}
+
+.shape {
+    position: relative;
+    margin: auto;
+}
+
+.square {
+    width: 75%;
+    height: 75%;
+}
+
+.circle {
+    width: 75%;
+    height: 75%;
+    border-radius: 50%
+}
+
+.triangle {
+  width: 85%;
+  aspect-ratio: 1/cos(30deg);
+  clip-path: polygon(50% 0,100% 100%,0 100%);
 }
