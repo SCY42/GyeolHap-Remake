@@ -34,49 +34,6 @@ function pickCards(deck: Card[]) {
 }
 
 
-// function convertElemToCard(...elems) {
-//     let result = []
-//     elems.map(elem => {
-//         const bgClassList = [...elem.classList];
-//         const cardClassList = [...elem.getElementsByClassName("shape")[0].classList]
-
-//         const color = cardClassList.find(c => 
-//             c === "red" || c === "blue" || c === "green"
-//         );
-//         const shape = cardClassList.find(c =>
-//             c === "circle" || c === "square" || c === "triangle"
-//         );
-//         const bgColor = bgClassList.find(c =>
-//             c === "black" || c === "gray" || c === "white"
-//         );
-//         result.push([color, shape, bgColor]);
-//     }); return result;
-// }
-
-
-// // 세 카드가 정답인지 검사하는 함수
-// function isAnswer(card1, card2, card3) {
-//     let check;
-//     if ((card1 instanceof Element)) { [card1, card2, card3] = convertElemToCard(card1, card2, card3); }
-//     if (isDuplicate(card1, card2, card3)) return false;
-//     for (let i = 0; i < 3; i++) {
-//         check = ((card1[i] == card2[i]) && (card2[i] == card3[i]) && (card3[i] == card1[i])) ||
-//                 ((card1[i] != card2[i]) && (card2[i] != card3[i]) && (card3[i] != card1[i]))
-//         if (!check) { return false; }
-//     } return true;
-// }
-
-
-// // 정답이 이미 나왔던 것인지 검사하는 함수
-// function isDuplicate(card1, card2, card3) {
-//     const answersString = answersToAnswersString(card1, card2, card3);
-//     const answers = document.getElementsByClassName("answers-row")[0].childNodes
-//     answers.forEach(answer => {
-//         if (answer.textContent == answersString) return true;
-//     }); return false;
-// }
-
-
 // 9장의 카드로 가능한 모든 정답을 찾는 함수
 function findAnswers(cards: Card[]) {
     let answers: Array<string> = []
@@ -136,20 +93,13 @@ function evaluateAnswer() {
     if (answers.length != 3) { return; }
 
     const result = isAnswer(answers[0], answers[1], answers[2]);
-    if (result) { addToAnswersRow(cardsToNumbersString(...answers)); }
+    if (result) { 
+        const answersString = cardsToNumbersString(...answers);
+        if (!isDuplicate(answersString)) { addToAnswersRow(answersString); }
+    }
     showResult(result);
     removeSelection();
 }
-
-
-// // 세 개의 카드를 숫자 문자열로 변환하는 함수
-// function answersToAnswersString(...answers) {
-//     const answersString = [];
-//     [...answers].forEach((answer) => {
-//         answersString.push(answer.getElementsByClassName("number")[0].textContent);
-//     });
-//     return answersString.join(" ");
-// }
 
 
 // 정답 행에 요소를 추가하는 함수
@@ -163,6 +113,35 @@ function addToAnswersRow(answerString: string) {
 
 
 // 정답 여부를 보여주는 함수
+// TODO Alert 대신 더 이쁘게, 자동으로 사라지도록 만들기
 function showResult(isAnswer: boolean) {
     alert(isAnswer);
+}
+
+
+// 중복 정답을 체크하는 함수
+function isDuplicate(answersString: string) {
+    const existingAnswers = [...document.getElementsByClassName("answer")].map(answer => answer.textContent);
+    console.log(existingAnswers);
+    return existingAnswers.includes(answersString);
+}
+
+
+// 결 여부를 체크하는 함수
+function evaluateGyeol() {
+    console.log(ANSWERS);
+    const currentAnswers = [...document.getElementsByClassName("answer")].map(answer => answer.textContent).sort();
+    const isGyeol = ANSWERS.join("") === currentAnswers.join("");
+
+    if (isGyeol) { 
+        alert("결!");   // TODO 결 이쁘게 보여주기
+        gameOver();
+     };
+}
+
+
+// 게임 종료 함수
+function gameOver() {
+    const giveupButton = document.getElementsByClassName("giveup")[0];
+    giveupButton.textContent = "재시작";
 }

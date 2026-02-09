@@ -10,3 +10,6 @@
         evaluateAnswer();
     });
 });
+document.getElementsByClassName("gyeol")[0].addEventListener("click", (e) => {
+    evaluateGyeol();
+});

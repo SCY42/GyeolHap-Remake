@@ -69,7 +69,10 @@ function evaluateAnswer() {
     }
     const result = isAnswer(answers[0], answers[1], answers[2]);
     if (result) {
-        addToAnswersRow(cardsToNumbersString(...answers));
+        const answersString = cardsToNumbersString(...answers);
+        if (!isDuplicate(answersString)) {
+            addToAnswersRow(answersString);
+        }
     }
     showResult(result);
     removeSelection();
@@ -83,4 +86,23 @@ function addToAnswersRow(answerString) {
 }
 function showResult(isAnswer) {
     alert(isAnswer);
+}
+function isDuplicate(answersString) {
+    const existingAnswers = [...document.getElementsByClassName("answer")].map(answer => answer.textContent);
+    console.log(existingAnswers);
+    return existingAnswers.includes(answersString);
+}
+function evaluateGyeol() {
+    console.log(ANSWERS);
+    const currentAnswers = [...document.getElementsByClassName("answer")].map(answer => answer.textContent).sort();
+    const isGyeol = ANSWERS.join("") === currentAnswers.join("");
+    if (isGyeol) {
+        alert("결!");
+        gameOver();
+    }
+    ;
+}
+function gameOver() {
+    const giveupButton = document.getElementsByClassName("giveup")[0];
+    giveupButton.textContent = "재시작";
 }
