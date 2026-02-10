@@ -41,7 +41,7 @@ function findAnswers(cards: Card[]) {
         for (let j = i+1; j < 9; j++) {
             for (let k = j+1; k < 9; k++) {
                 if (isAnswer(cards[i], cards[j], cards[k])) { 
-                    answers.push([i, j, k].join(" "));
+                    answers.push([i+1, j+1, k+1].join(" "));
                 }
             }
         }
@@ -95,6 +95,9 @@ function evaluateAnswer() {
     const result = isAnswer(answers[0], answers[1], answers[2]);
     if (result) { 
         const answersString = cardsToNumbersString(...answers);
+        for (let i = 0; i < ANSWERS_REMANING.length; i++) {
+            if (ANSWERS_REMANING[i] == answersString) { ANSWERS_REMANING.splice(i, 1); break; }
+        }
         if (!isDuplicate(answersString)) { addToAnswersRow(answersString); }
     }
     showResult(result);
@@ -121,27 +124,47 @@ function showResult(isAnswer: boolean) {
 
 // 중복 정답을 체크하는 함수
 function isDuplicate(answersString: string) {
-    const existingAnswers = [...document.getElementsByClassName("answer")].map(answer => answer.textContent);
-    console.log(existingAnswers);
-    return existingAnswers.includes(answersString);
+    const currentAnswers = [...document.getElementsByClassName("answer")].map(answer => answer.textContent);
+    return currentAnswers.includes(answersString);
 }
 
 
 // 결 여부를 체크하는 함수
 function evaluateGyeol() {
-    console.log(ANSWERS);
-    const currentAnswers = [...document.getElementsByClassName("answer")].map(answer => answer.textContent).sort();
-    const isGyeol = ANSWERS.join("") === currentAnswers.join("");
+    const isGyeol = ANSWERS_REMANING.length == 0;
 
     if (isGyeol) { 
         alert("결!");   // TODO 결 이쁘게 보여주기
         gameOver();
-     };
+    } else { alert("결 아님!"); }
 }
 
 
 // 게임 종료 함수
 function gameOver() {
-    const giveupButton = document.getElementsByClassName("giveup")[0];
-    giveupButton.textContent = "재시작";
+    GIVEUP_BUTTON.textContent = "재시작";
+    GYEOL_BUTTON.classList.add("noclick");
+    BOARD.classList.add("noclick");
+    isGameOver = true;
+}
+
+
+// 게임 재시작 함수
+function gameRestart() {
+    CARDS = pickCards(generateDeck());
+    ANSWERS_REMANING = initializeGame(CARDS);
+
+    isGameOver = false;
+
+    GIVEUP_BUTTON.textContent = "포기";
+    GYEOL_BUTTON.classList.remove("noclick");
+    BOARD.classList.remove("noclick");
+}
+
+
+// 모든 정답을 보여주는 함수
+function revealAnswers() {
+    ANSWERS_REMANING.forEach(answer => {
+        addToAnswersRow(answer);
+    });
 }

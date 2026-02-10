@@ -45,17 +45,13 @@ function isAnswer(c1: Card, c2: Card, c3: Card) {
     (c1.shape != c2.shape && c2.shape != c3.shape && c3.shape != c1.shape);
     bgColor = (c1.bgColor == c2.bgColor && c2.bgColor == c3.bgColor) ||
     (c1.bgColor != c2.bgColor && c2.bgColor != c3.bgColor && c3.bgColor != c1.bgColor);
-
-    console.log(color);
-    console.log(shape);
-    console.log(bgColor);
     
     return color && shape && bgColor;
 }
 
 
 function cardsToNumbersString(...cards: Card[]) {
-    return cards.map(card => card.index.toString()).join(" ");
+    return cards.map(card => (card.index + 1).toString()).join(" ");
 }
 
 

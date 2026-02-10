@@ -16,6 +16,17 @@
     })
 });
 
+// 결 버튼 콜백
 document.getElementsByClassName("gyeol")[0].addEventListener("click", (e) => {
     evaluateGyeol();
-})
+});
+
+// 포기/재시작 버튼 콜백
+document.getElementsByClassName("giveup")[0].addEventListener("click", (e) => {
+    if (!isGameOver) {  // 포기
+        revealAnswers();
+        gameOver();
+    } else {            // 재시작
+        gameRestart();
+    }
+});

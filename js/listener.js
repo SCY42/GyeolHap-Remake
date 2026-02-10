@@ -13,3 +13,12 @@
 document.getElementsByClassName("gyeol")[0].addEventListener("click", (e) => {
     evaluateGyeol();
 });
+document.getElementsByClassName("giveup")[0].addEventListener("click", (e) => {
+    if (!isGameOver) {
+        revealAnswers();
+        gameOver();
+    }
+    else {
+        gameRestart();
+    }
+});

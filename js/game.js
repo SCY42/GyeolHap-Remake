@@ -31,7 +31,7 @@ function findAnswers(cards) {
         for (let j = i + 1; j < 9; j++) {
             for (let k = j + 1; k < 9; k++) {
                 if (isAnswer(cards[i], cards[j], cards[k])) {
-                    answers.push([i, j, k].join(" "));
+                    answers.push([i + 1, j + 1, k + 1].join(" "));
                 }
             }
         }
@@ -70,6 +70,12 @@ function evaluateAnswer() {
     const result = isAnswer(answers[0], answers[1], answers[2]);
     if (result) {
         const answersString = cardsToNumbersString(...answers);
+        for (let i = 0; i < ANSWERS_REMANING.length; i++) {
+            if (ANSWERS_REMANING[i] == answersString) {
+                ANSWERS_REMANING.splice(i, 1);
+                break;
+            }
+        }
         if (!isDuplicate(answersString)) {
             addToAnswersRow(answersString);
         }
@@ -88,21 +94,35 @@ function showResult(isAnswer) {
     alert(isAnswer);
 }
 function isDuplicate(answersString) {
-    const existingAnswers = [...document.getElementsByClassName("answer")].map(answer => answer.textContent);
-    console.log(existingAnswers);
-    return existingAnswers.includes(answersString);
+    const currentAnswers = [...document.getElementsByClassName("answer")].map(answer => answer.textContent);
+    return currentAnswers.includes(answersString);
 }
 function evaluateGyeol() {
-    console.log(ANSWERS);
-    const currentAnswers = [...document.getElementsByClassName("answer")].map(answer => answer.textContent).sort();
-    const isGyeol = ANSWERS.join("") === currentAnswers.join("");
+    const isGyeol = ANSWERS_REMANING.length == 0;
     if (isGyeol) {
         alert("결!");
         gameOver();
     }
-    ;
+    else {
+        alert("결 아님!");
+    }
 }
 function gameOver() {
-    const giveupButton = document.getElementsByClassName("giveup")[0];
-    giveupButton.textContent = "재시작";
+    GIVEUP_BUTTON.textContent = "재시작";
+    GYEOL_BUTTON.classList.add("noclick");
+    BOARD.classList.add("noclick");
+    isGameOver = true;
+}
+function gameRestart() {
+    CARDS = pickCards(generateDeck());
+    ANSWERS_REMANING = initializeGame(CARDS);
+    isGameOver = false;
+    GIVEUP_BUTTON.textContent = "포기";
+    GYEOL_BUTTON.classList.remove("noclick");
+    BOARD.classList.remove("noclick");
+}
+function revealAnswers() {
+    ANSWERS_REMANING.forEach(answer => {
+        addToAnswersRow(answer);
+    });
 }

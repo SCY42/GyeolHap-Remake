@@ -10,7 +10,6 @@
     }
 }
 
-
 .container {
     display: grid;
     grid-template-columns: 1fr 8fr 1fr;
@@ -76,6 +75,10 @@
 .button {
     cursor: pointer;
     font-size: larger;
+}
+
+.noclick {
+    pointer-events: none;
 }
 
 .black {
