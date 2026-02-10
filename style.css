@@ -4,9 +4,6 @@
     .answer {
         color: black;
         background-color: white;
-        /* padding: 5px;
-        margin: auto;
-        font-size: x-large; */
     }
 }
 
@@ -15,9 +12,14 @@
     grid-template-columns: 1fr 8fr 1fr;
     grid-template-rows: 1fr;
     width: 75vw;
-    max-width: 100vmin;
+    max-width: 110vmin;
     max-height: 90vh;
     margin: 5vmin auto 5vmin auto;
+}
+
+.input {
+    max-block-size: 5ch;
+    margin: auto;
 }
 
 .board {
@@ -50,7 +52,6 @@
     aspect-ratio: 1;
     background: aqua;
     color: black;
-    /* border-radius: 20%; */
     align-items: center;
     text-align: center;
     z-index: 5;
@@ -133,4 +134,30 @@
 
 .hover {
     box-shadow: 0 0 0 2px gold inset;
+}
+
+.text {
+    z-index: 10;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: text-appear 2s;
+    user-select: none;
+    pointer-events: none;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes text-appear {
+    from {
+        display: flex;
+        transform: scale(1, 1);
+    }
+    to {
+        transform: scale(100, 100);
+        opacity: 0;
+    }
 }

@@ -1,43 +1,12 @@
-function generateDeck() {
-    let deck = [];
-    Object.values(Color).forEach((c) => {
-        Object.values(Shape).forEach((s) => {
-            Object.values(BgColor).forEach((bg) => {
-                deck.push(new Card(c, s, bg));
-            });
-        });
-    });
-    return deck;
-}
-function getRandomInt(min, max) {
-    const minCeiled = Math.ceil(min);
-    const maxFloored = Math.floor(max);
-    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
-}
-function pickCards(deck) {
-    let cards = [];
-    for (let i = 0; i < 9; i++) {
-        let pick = getRandomInt(0, deck.length);
-        let card = deck[pick];
-        card.setIndex(i);
-        cards.push(card);
-        deck.splice(pick, 1);
-    }
-    return cards;
-}
-function findAnswers(cards) {
-    let answers = [];
-    for (let i = 0; i < 9; i++) {
-        for (let j = i + 1; j < 9; j++) {
-            for (let k = j + 1; k < 9; k++) {
-                if (isAnswer(cards[i], cards[j], cards[k])) {
-                    answers.push([i + 1, j + 1, k + 1].join(" "));
-                }
-            }
-        }
-    }
-    return answers;
-}
+var CenterText;
+(function (CenterText) {
+    CenterText["GYEOL"] = "text-gyeol";
+    CenterText["HAP"] = "text-hap";
+    CenterText["WRONG"] = "text-wrong";
+    CenterText["DUPLICATE"] = "text-duplicate";
+    CenterText["GIVE_UP"] = "text-giveup";
+    CenterText["RESTART"] = "text-restart";
+})(CenterText || (CenterText = {}));
 function initializeGame(cards) {
     let cardSlots = document.getElementsByClassName("card");
     let shapeSlots = document.getElementsByClassName("shape");
@@ -78,9 +47,15 @@ function evaluateAnswer() {
         }
         if (!isDuplicate(answersString)) {
             addToAnswersRow(answersString);
+            animateText(CenterText.HAP);
+        }
+        else {
+            animateText(CenterText.DUPLICATE);
         }
     }
-    showResult(result);
+    else {
+        animateText(CenterText.WRONG);
+    }
     removeSelection();
 }
 function addToAnswersRow(answerString) {
@@ -90,9 +65,6 @@ function addToAnswersRow(answerString) {
     answer.textContent = answerString;
     answersRow.appendChild(answer);
 }
-function showResult(isAnswer) {
-    alert(isAnswer);
-}
 function isDuplicate(answersString) {
     const currentAnswers = [...document.getElementsByClassName("answer")].map(answer => answer.textContent);
     return currentAnswers.includes(answersString);
@@ -100,11 +72,11 @@ function isDuplicate(answersString) {
 function evaluateGyeol() {
     const isGyeol = ANSWERS_REMANING.length == 0;
     if (isGyeol) {
-        alert("결!");
+        animateText(CenterText.GYEOL);
         gameOver();
     }
     else {
-        alert("결 아님!");
+        animateText(CenterText.WRONG);
     }
 }
 function gameOver() {
@@ -120,9 +92,17 @@ function gameRestart() {
     GIVEUP_BUTTON.textContent = "포기";
     GYEOL_BUTTON.classList.remove("noclick");
     BOARD.classList.remove("noclick");
+    animateText(CenterText.RESTART);
 }
 function revealAnswers() {
     ANSWERS_REMANING.forEach(answer => {
         addToAnswersRow(answer);
     });
+}
+function animateText(textEnum) {
+    const text = document.getElementById(textEnum);
+    if (!(text == null)) {
+        text.classList.remove("hidden");
+        text.classList.add("text-appear");
+    }
 }

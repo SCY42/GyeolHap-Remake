@@ -49,3 +49,43 @@ function selectionToCards() {
     });
     return result;
 }
+function generateDeck() {
+    let deck = [];
+    Object.values(Color).forEach((c) => {
+        Object.values(Shape).forEach((s) => {
+            Object.values(BgColor).forEach((bg) => {
+                deck.push(new Card(c, s, bg));
+            });
+        });
+    });
+    return deck;
+}
+function getRandomInt(min, max) {
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
+}
+function pickCards(deck) {
+    let cards = [];
+    for (let i = 0; i < 9; i++) {
+        let pick = getRandomInt(0, deck.length);
+        let card = deck[pick];
+        card.setIndex(i);
+        cards.push(card);
+        deck.splice(pick, 1);
+    }
+    return cards;
+}
+function findAnswers(cards) {
+    let answers = [];
+    for (let i = 0; i < 9; i++) {
+        for (let j = i + 1; j < 9; j++) {
+            for (let k = j + 1; k < 9; k++) {
+                if (isAnswer(cards[i], cards[j], cards[k])) {
+                    answers.push([i + 1, j + 1, k + 1].join(" "));
+                }
+            }
+        }
+    }
+    return answers;
+}
